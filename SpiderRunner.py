@@ -4,5 +4,5 @@ import MtgSpiders
 #https://towardsdatascience.com/web-scraping-with-scrapy-8071fd627051
 #scrapy runspider EnduranceTcgPlayerSpider.py -o test.csv
 
-#TCG Player changed their site, so cannot get it now. Will figure out eventually
+#TCG Player and Card Hoarder seem to block bots
 MtgSpiders.SpiderHelpers.run_spiders()

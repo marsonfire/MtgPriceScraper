@@ -22,6 +22,7 @@ class EnduranceScgSpider(scrapy.Spider):
     def parse(self, response):
         endurance_scg_price = SpiderHelpers.create_list_of_values('Star City Games', response.xpath("//span[@class='price price--withoutTax']/text()").get())
         SpiderHelpers.append_to_csv(endurance_scg_price)
+
 # endregion 
 
 # Helper methods to run the spiders
