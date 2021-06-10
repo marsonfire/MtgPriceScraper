@@ -28,7 +28,7 @@ class EnduranceGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Endurance#paper']
 
     def parse(self, response):
-        endurance_tcg_price = SpiderHelpers.create_list_of_values('Tcg Player', str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
+        endurance_tcg_price = SpiderHelpers.create_list_of_values('Tcg Player Market', str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
         endurance_ch_price = SpiderHelpers.create_list_of_values('Cardhoarder', str(response.xpath("//span[@class='btn-shop-price']/text()")[4].get()).strip())
         SpiderHelpers.append_to_csv(endurance_tcg_price)
         SpiderHelpers.append_to_csv(endurance_ch_price)
