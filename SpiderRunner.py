@@ -5,4 +5,4 @@ import MtgSpiders
 #scrapy runspider EnduranceTcgPlayerSpider.py -o test.csv
 
 #TCG Player changed their site, so cannot get it now. Will figure out eventually
-MtgSpiders.Runner.run_spiders()
+MtgSpiders.SpiderHelpers.run_spiders()
