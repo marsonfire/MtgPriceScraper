@@ -23,6 +23,16 @@ class EnduranceScgSpider(scrapy.Spider):
         endurance_scg_price = SpiderHelpers.create_list_of_values('Star City Games', response.xpath("//span[@class='price price--withoutTax']/text()").get())
         SpiderHelpers.append_to_csv(endurance_scg_price)
 
+class EnduranceGoldfishSpider(scrapy.Spider):
+    name = "enduranceGoldfishSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Endurance#paper']
+
+    def parse(self, response):
+        endurance_tcg_price = SpiderHelpers.create_list_of_values('Tcg Player', str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
+        endurance_ch_price = SpiderHelpers.create_list_of_values('Cardhoarder', str(response.xpath("//span[@class='btn-shop-price']/text()")[4].get()).strip())
+        SpiderHelpers.append_to_csv(endurance_tcg_price)
+        SpiderHelpers.append_to_csv(endurance_ch_price)
+
 # endregion 
 
 # Helper methods to run the spiders
@@ -48,4 +58,5 @@ class SpiderHelpers():
         })
         process.crawl(EnduranceCardKingdomSpider)
         process.crawl(EnduranceScgSpider)
+        process.crawl(EnduranceGoldfishSpider)
         process.start()
