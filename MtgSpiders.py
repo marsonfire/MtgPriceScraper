@@ -75,13 +75,23 @@ class ForceOfNegationGoldfishSpider(scrapy.Spider):
         fon_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[3].get()).strip())
         SpiderHelpers.append_to_csv('forceOfNegation', fon_tcg_price)
 
-class VerdantCatacombsSpider(scrapy.Spider):
+# Verdant Catacombs Goldfish Spider
+class VerdantCatacombsGoldfishSpider(scrapy.Spider):
     name = "vcSpider"
     start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Verdant+Catacombs#online']
 
     def parse(self, response):
         vc_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
         SpiderHelpers.append_to_csv('verdantCatacombs', vc_tcg_price)
+
+# Sanctum Prelate Spider
+class SanctumPrelateGoldfishSpider(scrapy.Spider):
+    name = "spSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Treasure+Chest/Sanctum+Prelate#online']
+
+    def parse(self, response):
+        sp_ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[0].get()).strip())
+        SpiderHelpers.append_to_csv('sanctumPrelate', sp_ch_price)
 
 # endregion 
 
@@ -113,5 +123,6 @@ class SpiderHelpers():
         process.crawl(PollutedDeltaCardKingdomSpider)
         process.crawl(ForceOfWillGoldfishSpider)
         process.crawl(ForceOfNegationGoldfishSpider)
-        process.crawl(VerdantCatacombsSpider)
+        process.crawl(VerdantCatacombsGoldfishSpider)
+        process.crawl(SanctumPrelateGoldfishSpider)
         process.start()
