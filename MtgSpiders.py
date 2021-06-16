@@ -45,7 +45,7 @@ class PollutedDeltaGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Khans+of+Tarkir/Polluted+Delta#online']
 
     def parse(self, response):
-        pd_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[3].get()).strip())
+        pd_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
         SpiderHelpers.append_to_csv('pollutedDelta', pd_tcg_price)
 
 #Polluted Delta Card Kingom
@@ -105,7 +105,7 @@ class SpiderHelpers():
     # Open the CSV and append the new row to it
     def append_to_csv(csv_name, new_row):
         # Open file in append mode
-        with open("csvData/ " + csv_name + '.csv', 'a+', newline='') as write_obj:
+        with open("/home/awmarsden/Desktop/MtgPriceScraper/csvData/" + csv_name + '.csv', 'a+', newline='') as write_obj:
             # Create a writer object from csv module
             csv_writer = writer(write_obj)
             # Add contents of list as last row in the csv file
