@@ -10,24 +10,6 @@ ch = "Cardhoarder"
 
 # region Spiders
 
-# Endurance Card Kingdom 
-class EnduranceCardKingdomSpider(scrapy.Spider):
-    name = "enduranceCardKingdomSpider"
-    start_urls = ['https://www.cardkingdom.com/mtg/modern-horizons-2/endurance']
-
-    def parse(self, response):
-        endurance_ck_price = SpiderHelpers.create_list_of_values(ck, response.xpath("//span[@class='stylePrice']/text()").get().strip())
-        SpiderHelpers.append_to_csv('endurance', endurance_ck_price)
-
-# Endurance Star City Games
-class EnduranceScgSpider(scrapy.Spider):
-    name = "enduranceScgSpider"
-    start_urls = ['https://starcitygames.com/endurance-sgl-mtg-mh2-157-enn/?sku=SGL-MTG-MH2-157-ENN1']
-
-    def parse(self, response):
-        endurance_scg_price = SpiderHelpers.create_list_of_values(scg, response.xpath("//span[@class='price price--withoutTax']/text()").get())
-        SpiderHelpers.append_to_csv('endurance', endurance_scg_price)
-
 #Endurance TCG Player and Cardhoarder
 class EnduranceGoldfishSpider(scrapy.Spider):
     name = "enduranceGoldfishSpider"
@@ -47,15 +29,6 @@ class PollutedDeltaGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         pd_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
         SpiderHelpers.append_to_csv('pollutedDelta', pd_tcg_price)
-
-#Polluted Delta Card Kingom
-class PollutedDeltaCardKingdomSpider(scrapy.Spider):
-    name = "pdCkSpider"
-    start_urls = ['https://www.cardkingdom.com/mtg/khans-of-tarkir/polluted-delta']
-
-    def parse(self, response):
-        pd_ck_price = SpiderHelpers.create_list_of_values(ck, response.xpath("//span[@class='stylePrice']/text()").get().strip())
-        SpiderHelpers.append_to_csv('pollutedDelta', pd_ck_price)
 
 # Force of Will TCG Player
 class ForceOfWillGoldfishSpider(scrapy.Spider):
@@ -116,11 +89,8 @@ class SpiderHelpers():
         process = CrawlerProcess({
             'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
         })
-        process.crawl(EnduranceCardKingdomSpider)
-        process.crawl(EnduranceScgSpider)
         process.crawl(EnduranceGoldfishSpider)
         process.crawl(PollutedDeltaGoldfishSpider)
-        process.crawl(PollutedDeltaCardKingdomSpider)
         process.crawl(ForceOfWillGoldfishSpider)
         process.crawl(ForceOfNegationGoldfishSpider)
         process.crawl(VerdantCatacombsGoldfishSpider)
