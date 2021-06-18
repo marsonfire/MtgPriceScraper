@@ -73,7 +73,7 @@ class PrismaticEndingGoldfishSpider(scrapy.Spider):
         pe_tcg_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip()) 
         pe_ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[4].get()).strip())
         SpiderHelpers.append_to_csv('prismaticEnding', pe_tcg_price)
-        SpiderHelpers.append_to_csv('sanctumPrelate', pe_ch_price)
+        SpiderHelpers.append_to_csv('prismaticEnding', pe_ch_price)
 
 # endregion 
 
