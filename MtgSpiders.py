@@ -3,8 +3,6 @@ from csv import writer
 from datetime import datetime
 from scrapy.crawler import CrawlerProcess
 
-ck = "Card Kingdom"
-scg = "Star City Games"
 tcg = "Tcg Player Market"
 ch = "Cardhoarder"
 
@@ -66,6 +64,17 @@ class SanctumPrelateGoldfishSpider(scrapy.Spider):
         sp_ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[0].get()).strip())
         SpiderHelpers.append_to_csv('sanctumPrelate', sp_ch_price)
 
+#Prismatic Ending Spider
+class PrismaticEndingGoldfishSpider(scrapy.Spider):
+    name = "peSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Prismatic+Ending#online']
+
+    def parse(self, response):
+        pe_tcg_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip()) 
+        pe_ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[4].get()).strip())
+        SpiderHelpers.append_to_csv('prismaticEnding', pe_tcg_price)
+        SpiderHelpers.append_to_csv('sanctumPrelate', pe_ch_price)
+
 # endregion 
 
 # Helper methods to run the spiders
@@ -95,4 +104,5 @@ class SpiderHelpers():
         process.crawl(ForceOfNegationGoldfishSpider)
         process.crawl(VerdantCatacombsGoldfishSpider)
         process.crawl(SanctumPrelateGoldfishSpider)
+        process.crawl(PrismaticEndingGoldfishSpider)
         process.start()
