@@ -52,7 +52,7 @@ class VerdantCatacombsGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Verdant+Catacombs#online']
 
     def parse(self, response):
-        vc_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
+        vc_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[1].get()).strip())
         SpiderHelpers.append_to_csv('verdantCatacombs', vc_tcg_price)
 
 # Sanctum Prelate Spider
@@ -70,10 +70,21 @@ class PrismaticEndingGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Prismatic+Ending#online']
 
     def parse(self, response):
-        pe_tcg_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip()) 
+        pe_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip()) 
         pe_ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[4].get()).strip())
         SpiderHelpers.append_to_csv('prismaticEnding', pe_tcg_price)
         SpiderHelpers.append_to_csv('prismaticEnding', pe_ch_price)
+
+#Grist the hunger tide spider
+class GristGoldfishSpider(scrapy.Spider):
+    name = "gristSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Grist+the+Hunger+Tide#online']
+
+    def parse(self, response):
+        grist_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[1].get()).strip()) 
+        grist_ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[3].get()).strip())
+        SpiderHelpers.append_to_csv('grist', grist_tcg_price)
+        SpiderHelpers.append_to_csv('grist', grist_ch_price)
 
 # endregion 
 
@@ -105,4 +116,5 @@ class SpiderHelpers():
         process.crawl(VerdantCatacombsGoldfishSpider)
         process.crawl(SanctumPrelateGoldfishSpider)
         process.crawl(PrismaticEndingGoldfishSpider)
+        process.crawl(GristGoldfishSpider)
         process.start()
