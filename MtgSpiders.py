@@ -11,7 +11,7 @@ ch = "Cardhoarder"
 #Endurance TCG Player and Cardhoarder
 class EnduranceGoldfishSpider(scrapy.Spider):
     name = "enduranceGoldfishSpider"
-    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Endurance#paper']
+    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Endurance#online']
 
     def parse(self, response):
         endurance_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
@@ -25,7 +25,7 @@ class PollutedDeltaGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Khans+of+Tarkir/Polluted+Delta#online']
 
     def parse(self, response):
-        pd_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
+        pd_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[3].get()).strip())
         SpiderHelpers.append_to_csv('pollutedDelta', pd_tcg_price)
 
 # Force of Will TCG Player
@@ -86,6 +86,24 @@ class GristGoldfishSpider(scrapy.Spider):
         SpiderHelpers.append_to_csv('grist', grist_tcg_price)
         SpiderHelpers.append_to_csv('grist', grist_ch_price)
 
+#brazen borrower
+class BrazenGoldfishSpider(scrapy.Spider):
+    name = "brazenSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Throne+of+Eldraine/Brazen+Borrower#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[5].get()).strip())
+        SpiderHelpers.append_to_csv('brazenBorrower', ch_price)
+
+#fiery islet
+class FieryIsletGoldfishSpider(scrapy.Spider):
+    name = "fieryIsletSpider"
+    start_urls = ['']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[5].get()).strip())
+        SpiderHelpers.append_to_csv('fieryIslet', ch_price)
+
 # endregion 
 
 # Helper methods to run the spiders
@@ -115,6 +133,8 @@ class SpiderHelpers():
         process.crawl(ForceOfNegationGoldfishSpider)
         process.crawl(VerdantCatacombsGoldfishSpider)
         process.crawl(SanctumPrelateGoldfishSpider)
-        process.crawl(PrismaticEndingGoldfishSpider)
+        #process.crawl(PrismaticEndingGoldfishSpider)  Already bought paper and online
         process.crawl(GristGoldfishSpider)
+        process.crawl(BrazenGoldfishSpider)
+        process.crawl(FieryIsletGoldfishSpider)
         process.start()
