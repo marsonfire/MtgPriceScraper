@@ -37,6 +37,15 @@ class ForceOfWillGoldfishSpider(scrapy.Spider):
         fow_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[3].get()).strip())
         SpiderHelpers.append_to_csv('forceOfWill', fow_tcg_price)
 
+#Force of will Cardhoarder
+class ForceOfWillChGoldfishSpider(scrapy.Spider):
+    name = "fowChSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Vintage+Masters/Force+of+Will#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[0].get()).strip())
+        SpiderHelpers.append_to_csv('forceOfWill', ch_price)
+
 # Force of Negation TCG Player
 class ForceOfNegationGoldfishSpider(scrapy.Spider):
     name = "fonSpider"
@@ -52,7 +61,7 @@ class VerdantCatacombsGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Verdant+Catacombs#online']
 
     def parse(self, response):
-        vc_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[1].get()).strip())
+        vc_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
         SpiderHelpers.append_to_csv('verdantCatacombs', vc_tcg_price)
 
 # Sanctum Prelate Spider
@@ -98,12 +107,47 @@ class BrazenGoldfishSpider(scrapy.Spider):
 #fiery islet
 class FieryIsletGoldfishSpider(scrapy.Spider):
     name = "fieryIsletSpider"
-    start_urls = ['']
+    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons/Fiery+Islet#online']
 
     def parse(self, response):
         ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[5].get()).strip())
         SpiderHelpers.append_to_csv('fieryIslet', ch_price)
 
+#blackcleave cliffs
+class BlackcleaveGoldfishSpider(scrapy.Spider):
+    name = "blackcleaveSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Scars+of+Mirrodin/Blackcleave+Cliffs#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[5].get()).strip())
+        SpiderHelpers.append_to_csv('blackcleaveCliffs', ch_price)
+
+#klothys
+class KlothysGoldfishSpider(scrapy.Spider):
+    name = "klothysSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Theros+Beyond+Death/Klothys+God+of+Destiny#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[5].get()).strip())
+        SpiderHelpers.append_to_csv('klothys', ch_price)
+
+#murktide regent
+class MurktideGoldfishSpider(scrapy.Spider):
+    name = "murkSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Murktide+Regent#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[3].get()).strip())
+        SpiderHelpers.append_to_csv('murktide', ch_price)
+
+#spirebluff canal
+class SpirebluffCanalGoldfishSpider(scrapy.Spider):
+    name = "spirebluffSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Kaladesh/Spirebluff+Canal#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
+        SpiderHelpers.append_to_csv('spirebluffCanal', ch_price)
 # endregion 
 
 # Helper methods to run the spiders
@@ -130,6 +174,7 @@ class SpiderHelpers():
         process.crawl(EnduranceGoldfishSpider)
         process.crawl(PollutedDeltaGoldfishSpider)
         process.crawl(ForceOfWillGoldfishSpider)
+        process.crawl(ForceOfWillChGoldfishSpider)
         process.crawl(ForceOfNegationGoldfishSpider)
         process.crawl(VerdantCatacombsGoldfishSpider)
         process.crawl(SanctumPrelateGoldfishSpider)
@@ -137,4 +182,8 @@ class SpiderHelpers():
         process.crawl(GristGoldfishSpider)
         process.crawl(BrazenGoldfishSpider)
         process.crawl(FieryIsletGoldfishSpider)
+        process.crawl(BlackcleaveGoldfishSpider)
+        process.crawl(KlothysGoldfishSpider)
+        process.crawl(MurktideGoldfishSpider)
+        process.crawl(SpirebluffCanalGoldfishSpider)
         process.start()
