@@ -52,7 +52,7 @@ class ForceOfNegationGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons/Force+of+Negation#online']
 
     def parse(self, response):
-        fon_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[3].get()).strip())
+        fon_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
         SpiderHelpers.append_to_csv('forceOfNegation', fon_tcg_price)
 
 # Verdant Catacombs Goldfish Spider
@@ -61,7 +61,7 @@ class VerdantCatacombsGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Verdant+Catacombs#online']
 
     def parse(self, response):
-        vc_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
+        vc_tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[1].get()).strip())
         SpiderHelpers.append_to_csv('verdantCatacombs', vc_tcg_price)
 
 # Sanctum Prelate Spider
@@ -146,8 +146,31 @@ class SpirebluffCanalGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Kaladesh/Spirebluff+Canal#online']
 
     def parse(self, response):
-        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[2].get()).strip())
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[4].get()).strip())
         SpiderHelpers.append_to_csv('spirebluffCanal', ch_price)
+
+#dauthi voidwalker
+class DauthiGoldfishSpider(scrapy.Spider):
+    name = "dauthiSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Dauthi+Voidwalker#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[4].get()).strip())
+        SpiderHelpers.append_to_csv('dauthi', ch_price)
+
+#misty rainforest
+class MistyRainforestGoldfishSpider(scrapy.Spider):
+    name = "mistySpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Misty+Rainforest#online']
+
+    def parse(self, response):
+        tcg_price = SpiderHelpers.create_list_of_values(tcg, str(response.xpath("//span[@class='btn-shop-price']/text()")[1].get()).strip())
+        ch_price = SpiderHelpers.create_list_of_values(ch, str(response.xpath("//span[@class='btn-shop-price']/text()")[3].get()).strip())
+        SpiderHelpers.append_to_csv('mistyRainforest', tcg_price)
+        SpiderHelpers.append_to_csv('mistyRainforest', ch_price)
+
+# endregion 
+
 # endregion 
 
 # Helper methods to run the spiders
@@ -183,7 +206,9 @@ class SpiderHelpers():
         process.crawl(BrazenGoldfishSpider)
         process.crawl(FieryIsletGoldfishSpider)
         process.crawl(BlackcleaveGoldfishSpider)
-        process.crawl(KlothysGoldfishSpider)
+        # process.crawl(KlothysGoldfishSpider) Just stable around 5.5 tix
         process.crawl(MurktideGoldfishSpider)
         process.crawl(SpirebluffCanalGoldfishSpider)
+        process.crawl(DauthiGoldfishSpider)
+        process.crawl(MistyRainforestGoldfishSpider)
         process.start()
