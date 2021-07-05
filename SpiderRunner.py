@@ -7,3 +7,6 @@ import MtgSpiders
 
 #TCG Player and Card Hoarder seem to block bots
 MtgSpiders.SpiderHelpers.run_spiders()
+
+# MtgSpiders.SummaryFile.percent_change('sanctumPrelate')
+# MtgSpiders.SummaryFile.percent_change('pollutedDelta')
