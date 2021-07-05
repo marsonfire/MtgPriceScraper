@@ -30,6 +30,7 @@ class PollutedDeltaGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         pd_tcg_price = SpiderHelpers.create_list_of_values(TCG, str(response.xpath(GOLDFISH_XPATH)[2].get()).strip())
         SpiderHelpers.append_to_csv('pollutedDelta', pd_tcg_price)
+        SummaryFile.get_percent_change('pollutedDelta')
 
 # Force of Will TCG Player
 class ForceOfWillGoldfishSpider(scrapy.Spider):
@@ -66,6 +67,7 @@ class VerdantCatacombsGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         vc_tcg_price = SpiderHelpers.create_list_of_values(TCG, str(response.xpath(GOLDFISH_XPATH)[1].get()).strip())
         SpiderHelpers.append_to_csv('verdantCatacombs', vc_tcg_price)
+        SummaryFile.get_percent_change('verdantCatacombs')
 
 # Sanctum Prelate Spider
 class SanctumPrelateGoldfishSpider(scrapy.Spider):
@@ -75,7 +77,7 @@ class SanctumPrelateGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         sp_ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[0].get()).strip())
         SpiderHelpers.append_to_csv('sanctumPrelate', sp_ch_price)
-        SummaryFile.percent_change('sanctumPrelate')
+        SummaryFile.get_percent_change('sanctumPrelate')
 
 #Prismatic Ending Spider
 class PrismaticEndingGoldfishSpider(scrapy.Spider):
@@ -107,6 +109,7 @@ class BrazenGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[5].get()).strip())
         SpiderHelpers.append_to_csv('brazenBorrower', ch_price)
+        SummaryFile.get_percent_change('brazenBorrower')
 
 #fiery islet
 class FieryIsletGoldfishSpider(scrapy.Spider):
@@ -116,7 +119,7 @@ class FieryIsletGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[5].get()).strip())
         SpiderHelpers.append_to_csv('fieryIslet', ch_price)
-        SummaryFile.percent_change('fieryIslet')
+        SummaryFile.get_percent_change('fieryIslet')
 
 #blackcleave cliffs
 class BlackcleaveGoldfishSpider(scrapy.Spider):
@@ -126,6 +129,7 @@ class BlackcleaveGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[5].get()).strip())
         SpiderHelpers.append_to_csv('blackcleaveCliffs', ch_price)
+        SummaryFile.get_percent_change('blackcleaveCliffs')
 
 #klothys
 class KlothysGoldfishSpider(scrapy.Spider):
@@ -144,6 +148,7 @@ class MurktideGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[3].get()).strip())
         SpiderHelpers.append_to_csv('murktide', ch_price)
+        SummaryFile.get_percent_change('murktide')
 
 #spirebluff canal
 class SpirebluffCanalGoldfishSpider(scrapy.Spider):
@@ -153,6 +158,7 @@ class SpirebluffCanalGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[4].get()).strip())
         SpiderHelpers.append_to_csv('spirebluffCanal', ch_price)
+        SummaryFile.get_percent_change('spirebluffCanal')
 
 #dauthi voidwalker
 class DauthiGoldfishSpider(scrapy.Spider):
@@ -162,6 +168,7 @@ class DauthiGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[4].get()).strip())
         SpiderHelpers.append_to_csv('dauthi', ch_price)
+        SummaryFile.get_percent_change('dauthi')
 
 #misty rainforest
 class MistyRainforestGoldfishSpider(scrapy.Spider):
@@ -178,7 +185,7 @@ class MistyRainforestGoldfishSpider(scrapy.Spider):
 
 #Create Summary File
 class SummaryFile():
-    def percent_change(csv):
+    def get_percent_change(csv):
 
         #read in the csv and get the 2 most recent values
         list_values = pd.read_csv("/home/awmarsden/Desktop/MtgPriceScraper/csvData/" + csv + '.csv').values.tolist()
@@ -200,8 +207,8 @@ class SummaryFile():
         percent_change = ((last_value - second_to_last)/second_to_last) * 100
 
         if(percent_change >= 10 or percent_change <= -10):
+            global sig_changes
             sig_changes = sig_changes + csv + " percent change " + str(percent_change) + ". Was " + str(second_to_last) + ", now " + str(last_value) + "\n"
-            
 
 # Helper methods to run the spiders
 class SpiderHelpers():
@@ -242,8 +249,6 @@ class SpiderHelpers():
         process.crawl(DauthiGoldfishSpider)
         process.crawl(MistyRainforestGoldfishSpider)
         process.start()
-        print(sig_changes)
 
         with open('/home/awmarsden/Desktop/MtgPriceScraper/percentChanges.txt', 'w') as f:
             f.write(sig_changes)
-            f.write('percentChanges')
