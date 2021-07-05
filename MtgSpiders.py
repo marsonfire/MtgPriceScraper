@@ -17,10 +17,12 @@ class EnduranceGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Modern+Horizons+2/Endurance#online']
 
     def parse(self, response):
-        endurance_tcg_price = SpiderHelpers.create_list_of_values(TCG, str(response.xpath(GOLDFISH_XPATH)[2].get()).strip())
+        endurance_tcg_price = SpiderHelpers.create_list_of_values(TCG, str(response.xpath(GOLDFISH_XPATH)[1].get()).strip())
         endurance_ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[4].get()).strip())
-        SpiderHelpers.append_to_csv('endurance', endurance_tcg_price)
-        SpiderHelpers.append_to_csv('endurance', endurance_ch_price)
+        SpiderHelpers.append_to_csv('enduranceTcg', endurance_tcg_price)
+        SummaryFile.get_percent_change('enduranceTcg')
+        SpiderHelpers.append_to_csv('enduranceCh', endurance_ch_price)
+        SummaryFile.get_percent_change('enduranceCh')
 
 # Polluted Delta TCG Player
 class PollutedDeltaGoldfishSpider(scrapy.Spider):
@@ -39,7 +41,8 @@ class ForceOfWillGoldfishSpider(scrapy.Spider):
 
     def parse(self, response):
         fow_tcg_price = SpiderHelpers.create_list_of_values(TCG, str(response.xpath(GOLDFISH_XPATH)[2].get()).strip())
-        SpiderHelpers.append_to_csv('forceOfWill', fow_tcg_price)
+        SpiderHelpers.append_to_csv('forceOfWillTcg', fow_tcg_price)
+        SummaryFile.get_percent_change('forceOfWillTcg')
 
 #Force of will Cardhoarder
 class ForceOfWillChGoldfishSpider(scrapy.Spider):
@@ -48,7 +51,8 @@ class ForceOfWillChGoldfishSpider(scrapy.Spider):
 
     def parse(self, response):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[0].get()).strip())
-        SpiderHelpers.append_to_csv('forceOfWill', ch_price)
+        SpiderHelpers.append_to_csv('forceOfWillCh', ch_price)
+        SummaryFile.get_percent_change('forceOfWillCh')
 
 # Force of Negation TCG Player
 class ForceOfNegationGoldfishSpider(scrapy.Spider):
@@ -58,6 +62,7 @@ class ForceOfNegationGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         fon_tcg_price = SpiderHelpers.create_list_of_values(TCG, str(response.xpath(GOLDFISH_XPATH)[2].get()).strip())
         SpiderHelpers.append_to_csv('forceOfNegation', fon_tcg_price)
+        SummaryFile.get_percent_change('forceOfNegation')
 
 # Verdant Catacombs Goldfish Spider
 class VerdantCatacombsGoldfishSpider(scrapy.Spider):
@@ -98,8 +103,10 @@ class GristGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         grist_tcg_price = SpiderHelpers.create_list_of_values(TCG, str(response.xpath(GOLDFISH_XPATH)[1].get()).strip()) 
         grist_ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[3].get()).strip())
-        SpiderHelpers.append_to_csv('grist', grist_tcg_price)
-        SpiderHelpers.append_to_csv('grist', grist_ch_price)
+        SpiderHelpers.append_to_csv('gristTcg', grist_tcg_price)
+        SummaryFile.get_percent_change('gristTcg')
+        SpiderHelpers.append_to_csv('gristCh', grist_ch_price)
+        SummaryFile.get_percent_change('gristCh')
 
 #brazen borrower
 class BrazenGoldfishSpider(scrapy.Spider):
@@ -178,9 +185,19 @@ class MistyRainforestGoldfishSpider(scrapy.Spider):
     def parse(self, response):
         tcg_price = SpiderHelpers.create_list_of_values(TCG, str(response.xpath(GOLDFISH_XPATH)[1].get()).strip())
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[3].get()).strip())
-        SpiderHelpers.append_to_csv('mistyRainforest', tcg_price)
-        SpiderHelpers.append_to_csv('mistyRainforest', ch_price)
+        SpiderHelpers.append_to_csv('mistyRainforestTcg', tcg_price)
+        SummaryFile.get_percent_change('mistyRainforestTcg')
+        SpiderHelpers.append_to_csv('mistyRainforestCh', ch_price)
+        SummaryFile.get_percent_change('mistyRainforestCh')
 
+class AlurenGoldfishSpider(scrapy.Spider):
+    name = "alurenSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Tempest/Aluren#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[4].get()).strip())
+        SpiderHelpers.append_to_csv('aluren', ch_price)
+        SummaryFile.get_percent_change('aluren')
 # endregion 
 
 #Create Summary File
@@ -248,6 +265,7 @@ class SpiderHelpers():
         process.crawl(SpirebluffCanalGoldfishSpider)
         process.crawl(DauthiGoldfishSpider)
         process.crawl(MistyRainforestGoldfishSpider)
+        process.crawl(AlurenGoldfishSpider)
         process.start()
 
         with open('/home/awmarsden/Desktop/MtgPriceScraper/percentChanges.txt', 'w') as f:
