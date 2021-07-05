@@ -206,7 +206,7 @@ class SummaryFile():
         #get the percent change between the 2 most recent values
         percent_change = ((last_value - second_to_last)/second_to_last) * 100
 
-        if(percent_change >= 10 or percent_change <= -10):
+        if(percent_change >= 5 or percent_change <= -5):
             global sig_changes
             sig_changes = sig_changes + csv + " percent change " + str(percent_change) + ". Was " + str(second_to_last) + ", now " + str(last_value) + "\n"
 
