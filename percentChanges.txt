@@ -1,1 +1,6 @@
-blackcleaveCliffs percent change -6.451612903225811. Was 1.55, now 1.45
+tasha percent change 134.55882352941174. Was 2.72, now 6.38
+fieryIslet percent change -5.959475566150188. Was 16.78, now 15.78
+treasureVault percent change 33.03571428571427. Was 1.12, now 1.49
+gristCh percent change 5.5045871559633. Was 5.45, now 5.75
+blackcleaveCliffs percent change -19.075144508670526. Was 1.73, now 1.4
+aluren percent change -7.818930041152261. Was 4.86, now 4.48

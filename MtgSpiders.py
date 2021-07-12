@@ -134,7 +134,7 @@ class BlackcleaveGoldfishSpider(scrapy.Spider):
     start_urls = ['https://www.mtggoldfish.com/price/Scars+of+Mirrodin/Blackcleave+Cliffs#online']
 
     def parse(self, response):
-        ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[5].get()).strip())
+        ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[3].get()).strip())
         SpiderHelpers.append_to_csv('blackcleaveCliffs', ch_price)
         SummaryFile.get_percent_change('blackcleaveCliffs')
 
@@ -198,6 +198,24 @@ class AlurenGoldfishSpider(scrapy.Spider):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[4].get()).strip())
         SpiderHelpers.append_to_csv('aluren', ch_price)
         SummaryFile.get_percent_change('aluren')
+
+class TashaGoldfishSpider(scrapy.Spider):
+    name = "tashaSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Adventures+in+the+Forgotten+Realms/Tashas+Hideous+Laughter#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[3].get()).strip())
+        SpiderHelpers.append_to_csv('tasha', ch_price)
+        SummaryFile.get_percent_change('tasha')
+
+class TreasureGoldfishSpider(scrapy.Spider):
+    name = "treasureSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Adventures+in+the+Forgotten+Realms/Treasure+Vault#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[3].get()).strip())
+        SpiderHelpers.append_to_csv('treasureVault', ch_price)
+        SummaryFile.get_percent_change('treasureVault')
 # endregion 
 
 #Create Summary File
@@ -251,7 +269,7 @@ class SpiderHelpers():
         process.crawl(EnduranceGoldfishSpider)
         process.crawl(PollutedDeltaGoldfishSpider)
         process.crawl(ForceOfWillGoldfishSpider)
-        process.crawl(ForceOfWillChGoldfishSpider)
+        #process.crawl(ForceOfWillChGoldfishSpider) no money to be made really
         process.crawl(ForceOfNegationGoldfishSpider)
         process.crawl(VerdantCatacombsGoldfishSpider)
         process.crawl(SanctumPrelateGoldfishSpider)
@@ -260,12 +278,14 @@ class SpiderHelpers():
         process.crawl(BrazenGoldfishSpider)
         process.crawl(FieryIsletGoldfishSpider)
         process.crawl(BlackcleaveGoldfishSpider)
-        # process.crawl(KlothysGoldfishSpider) Just stable around 5.5 tix
+        process.crawl(KlothysGoldfishSpider) # Just stable around 5.5 tix, dropped to 2.5, bought at about 3
         process.crawl(MurktideGoldfishSpider)
         process.crawl(SpirebluffCanalGoldfishSpider)
-        process.crawl(DauthiGoldfishSpider)
+        #process.crawl(DauthiGoldfishSpider) just bounces from 8-10
         process.crawl(MistyRainforestGoldfishSpider)
         process.crawl(AlurenGoldfishSpider)
+        process.crawl(TashaGoldfishSpider)
+        process.crawl(TreasureGoldfishSpider)
         process.start()
 
         with open('/home/awmarsden/Desktop/MtgPriceScraper/percentChanges.txt', 'w') as f:
