@@ -216,6 +216,15 @@ class TreasureGoldfishSpider(scrapy.Spider):
         ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[3].get()).strip())
         SpiderHelpers.append_to_csv('treasureVault', ch_price)
         SummaryFile.get_percent_change('treasureVault')
+
+class MentorGoldfishSpider(scrapy.Spider):
+    name = "mentorSpider"
+    start_urls = ['https://www.mtggoldfish.com/price/Fate+Reforged/Monastery+Mentor#online']
+
+    def parse(self, response):
+        ch_price = SpiderHelpers.create_list_of_values(CH, str(response.xpath(GOLDFISH_XPATH)[4].get()).strip())
+        SpiderHelpers.append_to_csv('mentor', ch_price)
+        SummaryFile.get_percent_change('mentor')
 # endregion 
 
 #Create Summary File
@@ -272,19 +281,19 @@ class SpiderHelpers():
         #process.crawl(ForceOfWillChGoldfishSpider) no money to be made really
         process.crawl(ForceOfNegationGoldfishSpider)
         process.crawl(VerdantCatacombsGoldfishSpider)
-        process.crawl(SanctumPrelateGoldfishSpider)
+        # process.crawl(SanctumPrelateGoldfishSpider)
         #process.crawl(PrismaticEndingGoldfishSpider)  Already bought paper and online
         process.crawl(GristGoldfishSpider)
-        process.crawl(BrazenGoldfishSpider)
-        process.crawl(FieryIsletGoldfishSpider)
+        # process.crawl(BrazenGoldfishSpider)
+        # process.crawl(FieryIsletGoldfishSpider)
         process.crawl(BlackcleaveGoldfishSpider)
-        process.crawl(KlothysGoldfishSpider) # Just stable around 5.5 tix, dropped to 2.5, bought at about 3
-        process.crawl(MurktideGoldfishSpider)
-        process.crawl(SpirebluffCanalGoldfishSpider)
+        # process.crawl(KlothysGoldfishSpider) # Just stable around 5.5 tix, dropped to 2.5, bought at about 3
+        # process.crawl(MurktideGoldfishSpider)
+        # process.crawl(SpirebluffCanalGoldfishSpider)
         #process.crawl(DauthiGoldfishSpider) just bounces from 8-10
-        process.crawl(MistyRainforestGoldfishSpider)
-        process.crawl(AlurenGoldfishSpider)
-        process.crawl(TashaGoldfishSpider)
+        # process.crawl(MistyRainforestGoldfishSpider)
+        # process.crawl(AlurenGoldfishSpider)
+        # process.crawl(TashaGoldfishSpider)
         process.crawl(TreasureGoldfishSpider)
         process.start()
 
